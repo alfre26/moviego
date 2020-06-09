@@ -4,10 +4,11 @@ import styled from "styled-components";
 const Nav = styled.div`
   .nav-container {
     background: #202525;
-    padding: 20px;
+    padding: 20px 0;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    width: 100%;
   }
   .logo {
     font-size: 20px;
