@@ -11,6 +11,9 @@ const SeriesContainer = styled.div`
   .series {
     margin: auto;
     max-width: 375px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .series .cabecera {
     transform: translateY(-3em);
@@ -20,6 +23,7 @@ const SeriesContainer = styled.div`
   }
   .cabecera a {
     color: #49c0e5;
+    margin-left: 140px;
   }
   .series .title {
     color: #fff;

@@ -13,15 +13,18 @@ const MovieContainer = styled.div`
   .movies {
     margin: auto;
     max-width: 375px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .movies .cabecera {
     transform: translateY(-3em);
     display: flex;
-    justify-content: space-around;
     align-items: center;
   }
   .cabecera a {
     color: #49c0e5;
+    margin-left: 150px;
   }
   .movies .title {
     color: #fff;
