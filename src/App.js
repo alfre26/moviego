@@ -50,8 +50,25 @@ class App extends Component {
                   );
                 }}
               />
-              <Route exact path="/movies" component={MovieList} />
-              <Route exact path="/series" component={SerieList} />
+              <Route
+                exact
+                path="/movies"
+                render={() => {
+                  return (
+                    <MovieList
+                      apikey={this.apiKey}
+                      getImages={this.getImages}
+                    />
+                  );
+                }}
+              />
+              <Route
+                exact
+                path="/series"
+                render={() => (
+                  <SerieList apikey={this.apiKey} getImages={this.getImages} />
+                )}
+              />
               <Route component={NotFound} />
             </Switch>
           </Layouts>

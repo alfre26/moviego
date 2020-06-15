@@ -1,21 +1,44 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-const MoviesList = styled.div`
-  h1 {
-    padding: 350px 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-`;
+//components
+import Card from "./Card";
+//style
+import { MovieContainer } from "../Style";
 export default class MovieList extends Component {
+  state = {
+    movies: [],
+  };
+  componentDidMount() {
+    fetch(
+      `https://api.themoviedb.org/3/movie/popular?api_key=${this.props.apikey}&language=en-US&page=1`
+    )
+      .then((res) => res.json())
+      .then((data) => this.setState({ movies: data.results }))
+      .catch((error) => console.error(error));
+  }
+
   render() {
     return (
-      <MoviesList>
-        <input type="text" placeholder={process.env.REACT_APP_API} />
-        <h1>Working on it...</h1>
-      </MoviesList>
+      <MovieContainer>
+        <div className="Movies-container">
+          <div className="movies">
+            <div className="cabecera">
+              <div className="title">Movies</div>
+            </div>
+            <div className="card-container">
+              {this.state.movies.map((movie) => (
+                <Link key={movie.id} to={`/movies/${movie.id}`}>
+                  <Card
+                    key={movie.id}
+                    image={this.props.getImages(movie.poster_path)}
+                  />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </MovieContainer>
     );
   }
 }
