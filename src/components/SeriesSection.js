@@ -6,18 +6,6 @@ import Card from "./Card";
 //style
 import { SeriesContainer } from "../Style";
 export default class SeriesSection extends Component {
-  state = {
-    series: [],
-  };
-
-  componentDidMount() {
-    fetch(
-      `https://api.themoviedb.org/3/tv/popular?api_key=${this.props.apikey}&language=en-US&page=1`
-    )
-      .then((res) => res.json())
-      .then((data) => this.setState({ series: data.results }))
-      .catch((error) => console.error(error));
-  }
   render() {
     return (
       <SeriesContainer>
@@ -28,7 +16,7 @@ export default class SeriesSection extends Component {
               <Link to="/series">View all</Link>
             </div>
             <div className="card-container">
-              {this.state.series.map((serie) => (
+              {this.props.series.map((serie) => (
                 <Link key={serie.id} to={`/series/${serie.id}`}>
                   <Card
                     key={serie.id}

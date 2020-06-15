@@ -6,18 +6,6 @@ import Card from "./Card";
 //style
 import { MovieContainer } from "../Style";
 export default class MovieList extends Component {
-  state = {
-    movies: [],
-  };
-  componentDidMount() {
-    fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${this.props.apikey}&language=en-US&page=1`
-    )
-      .then((res) => res.json())
-      .then((data) => this.setState({ movies: data.results }))
-      .catch((error) => console.error(error));
-  }
-
   render() {
     return (
       <MovieContainer>
@@ -27,7 +15,7 @@ export default class MovieList extends Component {
               <div className="title">Movies</div>
             </div>
             <div className="card-container">
-              {this.state.movies.map((movie) => (
+              {this.props.movies.map((movie) => (
                 <Link key={movie.id} to={`/movies/${movie.id}`}>
                   <Card
                     key={movie.id}

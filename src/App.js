@@ -13,9 +13,35 @@ import NotFound from "./components/NotFound";
 class App extends Component {
   constructor() {
     super();
+    this.state = {
+      movies: [],
+      series: [],
+      pages: 1,
+    };
     this.apiKey = process.env.REACT_APP_API;
   }
 
+  componentDidMount() {
+    fetch(
+      `https://api.themoviedb.org/3/movie/popular?api_key=${this.apiKey}&language=en-US&page=1`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        this.setState({ movies: [...data.results], pages: data.total_pages });
+      })
+      .catch((error) => console.error(error));
+  }
+  componentWillMount() {
+    fetch(
+      `https://api.themoviedb.org/3/tv/popular?api_key=${this.apiKey}&language=en-US&pages=1`
+    )
+      .then((res) => res.json())
+      .then((data) =>
+        this.setState({ series: [...data.results], pages: data.total_pages })
+      )
+      .catch((error) => console.error(error));
+  }
   getImages(urlImage) {
     const card = {
       cursor: "pointer",
@@ -26,6 +52,7 @@ class App extends Component {
     return card;
   }
   render() {
+    console.log(this.state.movies);
     return (
       <Fragment>
         <Router>
@@ -39,12 +66,12 @@ class App extends Component {
                     <div>
                       <Hero />
                       <MovieSection
+                        movies={this.state.movies}
                         getImages={this.getImages}
-                        apikey={this.apiKey}
                       />
                       <SeriesSection
+                        series={this.state.series}
                         getImages={this.getImages}
-                        apikey={this.apiKey}
                       />
                     </div>
                   );
@@ -56,7 +83,7 @@ class App extends Component {
                 render={() => {
                   return (
                     <MovieList
-                      apikey={this.apiKey}
+                      movies={this.state.movies}
                       getImages={this.getImages}
                     />
                   );
@@ -66,7 +93,10 @@ class App extends Component {
                 exact
                 path="/series"
                 render={() => (
-                  <SerieList apikey={this.apiKey} getImages={this.getImages} />
+                  <SerieList
+                    series={this.state.series}
+                    getImages={this.getImages}
+                  />
                 )}
               />
               <Route component={NotFound} />
