@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 //componets
 import Card from "./Card";
@@ -91,14 +92,13 @@ export default class MovieSection extends Component {
   };
   componentDidMount() {
     fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=37f2ae62d34a000fdc7804626ffe2ec2&language=en-US&page=1`
+      `https://api.themoviedb.org/3/movie/popular?api_key=${this.props.apikey}&language=en-US&page=1`
     )
       .then((res) => res.json())
       .then((data) => this.setState({ movies: data.results }))
       .catch((error) => console.error(error));
   }
   render() {
-    console.log(this.props.apiKey);
     return (
       <MovieContainer>
         <div className="Movies-container">
@@ -109,12 +109,12 @@ export default class MovieSection extends Component {
             </div>
             <div className="card-container">
               {this.state.movies.map((movie) => (
-                <a key={movie.id} href={movie.id}>
+                <Link key={movie.id} to={`/movies/${movie.id}`}>
                   <Card
                     key={movie.id}
                     image={this.props.getImages(movie.poster_path)}
                   />
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -123,7 +123,3 @@ export default class MovieSection extends Component {
     );
   }
 }
-
-// https://api.themoviedb.org/3/movie/popular?api_key=37f2ae62d34a000fdc7804626ffe2ec2&language=en-US&page=1
-
-//https://api.themoviedb.org/3/movie/419704/images?api_key=37f2ae62d34a000fdc7804626ffe2ec2&language=en-US

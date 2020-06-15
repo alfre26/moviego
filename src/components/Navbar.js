@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Nav = styled.div`
   .nav-container {
@@ -19,7 +20,10 @@ const Nav = styled.div`
   .nav-links {
     display: none;
   }
-
+  .link {
+    text-decoration: none;
+    color: #fff;
+  }
   .hamburger {
     position: relative;
     cursor: pointer;
@@ -77,18 +81,34 @@ export default class Navbar extends Component {
     return (
       <Nav>
         <div className="nav-container">
-          <div className="logo">MoviesGo</div>
+          <div className="logo">
+            <Link className="link" to="/">
+              MovieGo
+            </Link>
+          </div>
 
           <div className="hamburger">
             <div className="line"></div>
           </div>
           <ul className="nav-links">
-            <li>Home</li>
-            <li>Genre</li>
-            <li>Movies</li>
-            <li>Tv-series</li>
             <li>
-              <i class="fas fa-search"></i>
+              <Link className="link" to="/">
+                Home
+              </Link>
+            </li>
+            <li>Genre</li>
+            <li>
+              <Link className="link" to="/movies">
+                Movies
+              </Link>
+            </li>
+            <li>
+              <Link className="link" to="/series">
+                Tv-series{" "}
+              </Link>
+            </li>
+            <li>
+              <i className="fas fa-search"></i>
             </li>
           </ul>
         </div>

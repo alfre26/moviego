@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 //components
 import Card from "./Card";
 const SeriesContainer = styled.div`
@@ -102,16 +103,16 @@ export default class SeriesSection extends Component {
           <div className="series">
             <div className="cabecera">
               <div className="title">TV-Series</div>
-              <a href="/">View all</a>
+              <Link to="/series">View all</Link>
             </div>
             <div className="card-container">
               {this.state.series.map((serie) => (
-                <a key={serie.id} href={serie.id}>
+                <Link key={serie.id} to={`/series/${serie.id}`}>
                   <Card
                     key={serie.id}
                     image={this.props.getImages(serie.poster_path)}
                   />
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -120,4 +121,3 @@ export default class SeriesSection extends Component {
     );
   }
 }
-//https://api.themoviedb.org/3/tv/id?api_key=37f2ae62d34a000fdc7804626ffe2ec2&language=en-US

@@ -1,18 +1,21 @@
 import React, { Fragment, Component } from "react";
-import "./App.css";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 //Component
-import Navbar from "./components/Navbar";
+import Layouts from "./components/Layouts";
 import Hero from "./components/Hero";
-import Footer from "./components/Footer";
 import MovieSection from "./components/MovieSection";
 import SeriesSection from "./components/SeriesSection";
+import MovieList from "./components/MovieList";
+import SerieList from "./components/SerieList";
+import NotFound from "./components/NotFound";
 
 class App extends Component {
   constructor() {
     super();
-    this.apikey = process.env.API_KEY;
+    this.apiKey = process.env.REACT_APP_API;
   }
+
   getImages(urlImage) {
     const card = {
       cursor: "pointer",
@@ -25,17 +28,37 @@ class App extends Component {
   render() {
     return (
       <Fragment>
-        <Navbar />
-        <Hero />
-        <MovieSection getImages={this.getImages} />
-        <SeriesSection getImages={this.getImages} />
-        <Footer />
+        <Router>
+          <Layouts>
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={() => {
+                  return (
+                    <div>
+                      <Hero />
+                      <MovieSection
+                        getImages={this.getImages}
+                        apikey={this.apiKey}
+                      />
+                      <SeriesSection
+                        getImages={this.getImages}
+                        apikey={this.apiKey}
+                      />
+                    </div>
+                  );
+                }}
+              />
+              <Route exact path="/movies" component={MovieList} />
+              <Route exact path="/series" component={SerieList} />
+              <Route component={NotFound} />
+            </Switch>
+          </Layouts>
+        </Router>
       </Fragment>
     );
   }
 }
 
 export default App;
-
-//key 37f2ae62d34a000fdc7804626ffe2ec2
-//https://api.themoviedb.org/3/movie/76341?api_key=<<api_key>>
