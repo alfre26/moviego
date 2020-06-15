@@ -24,10 +24,19 @@ const HeroContainer = styled.div`
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
   }
-
-  @media (min-width: 1300px) {
+  @media (min-width: 768px) {
     .hero-container {
-      height: 80vh;
+      min-height: 20vh;
+    }
+  }
+  @media (min-width: 1024px) {
+    .hero-container {
+      min-height: 40vh;
+    }
+  }
+  @media (min-width: 1600px) {
+    .hero-container {
+      min-height: 50vh;
     }
   }
 `;

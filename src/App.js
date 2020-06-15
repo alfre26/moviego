@@ -1,23 +1,38 @@
-import React, { Fragment } from "react";
+import React, { Fragment, Component } from "react";
 import "./App.css";
 
 //Component
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Footer from "./components/Footer";
-// import MovieSection from "./components/MovieSection";
+import MovieSection from "./components/MovieSection";
 import SeriesSection from "./components/SeriesSection";
 
-function App() {
-  return (
-    <Fragment>
-      <Navbar />
-      <Hero />
-      {/* <MovieSection /> */}
-      <SeriesSection />
-      <Footer />
-    </Fragment>
-  );
+class App extends Component {
+  constructor() {
+    super();
+    this.apikey = process.env.API_KEY;
+  }
+  getImages(urlImage) {
+    const card = {
+      cursor: "pointer",
+      backgroundImage: `url("https://image.tmdb.org/t/p/w200/${urlImage}")`,
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+    };
+    return card;
+  }
+  render() {
+    return (
+      <Fragment>
+        <Navbar />
+        <Hero />
+        <MovieSection getImages={this.getImages} />
+        <SeriesSection getImages={this.getImages} />
+        <Footer />
+      </Fragment>
+    );
+  }
 }
 
 export default App;

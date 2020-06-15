@@ -47,10 +47,39 @@ const SeriesContainer = styled.div`
     grid-template-rows: 1fr 1fr;
     gap: 10px;
   }
-  .card {
-    width: 140px;
-    padding: 90px 0px;
-    background: #fff;
+  @media (min-width: 768px) {
+    .series .cabecera {
+      max-width: 768px;
+      width: 600px;
+      justify-content: space-between;
+    }
+    .card-container {
+      max-width: 768px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr 1fr;
+      gap: 20px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .series .cabecera {
+      max-width: 1024px;
+      width: 750px;
+    }
+    .card-container {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1300px) {
+    .series .cabecera {
+      max-width: 1600px;
+      width: 1050px;
+    }
+    .card-container {
+      max-width: 1600px;
+    }
   }
 `;
 export default class SeriesSection extends Component {
@@ -66,18 +95,6 @@ export default class SeriesSection extends Component {
       .then((data) => this.setState({ series: data.results }))
       .catch((error) => console.error(error));
   }
-  // make only one function of this.
-  getImages(urlImage) {
-    const card = {
-      cursor: "pointer",
-      backgroundImage: `url("https://image.tmdb.org/t/p/w200/${urlImage}")`,
-      backgroundPosition: "center",
-      backgroundSize: "cover",
-      width: "140px",
-      padding: "100px 0px",
-    };
-    return card;
-  }
   render() {
     return (
       <SeriesContainer>
@@ -89,10 +106,12 @@ export default class SeriesSection extends Component {
             </div>
             <div className="card-container">
               {this.state.series.map((serie) => (
-                <Card
-                  key={serie.id}
-                  image={this.getImages(serie.poster_path)}
-                />
+                <a key={serie.id} href={serie.id}>
+                  <Card
+                    key={serie.id}
+                    image={this.props.getImages(serie.poster_path)}
+                  />
+                </a>
               ))}
             </div>
           </div>
@@ -101,3 +120,4 @@ export default class SeriesSection extends Component {
     );
   }
 }
+//https://api.themoviedb.org/3/tv/id?api_key=37f2ae62d34a000fdc7804626ffe2ec2&language=en-US

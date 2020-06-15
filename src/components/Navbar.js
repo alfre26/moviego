@@ -87,7 +87,9 @@ export default class Navbar extends Component {
             <li>Genre</li>
             <li>Movies</li>
             <li>Tv-series</li>
-            <li>Anime</li>
+            <li>
+              <i class="fas fa-search"></i>
+            </li>
           </ul>
         </div>
       </Nav>
