@@ -18,10 +18,7 @@ export default class SeriesSection extends Component {
             <div className="card-container">
               {this.props.series.map((serie) => (
                 <Link key={serie.id} to={`/series/${serie.id}`}>
-                  <Card
-                    key={serie.id}
-                    image={this.props.getImages(serie.poster_path)}
-                  />
+                  <Card key={serie.id} image={serie.poster_path} />
                 </Link>
               ))}
             </div>

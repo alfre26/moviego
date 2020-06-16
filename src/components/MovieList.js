@@ -17,10 +17,7 @@ export default class MovieList extends Component {
             <div className="card-container">
               {this.props.movies.map((movie) => (
                 <Link key={movie.id} to={`/movies/${movie.id}`}>
-                  <Card
-                    key={movie.id}
-                    image={this.props.getImages(movie.poster_path)}
-                  />
+                  <Card key={movie.id} image={movie.poster_path} />
                 </Link>
               ))}
             </div>

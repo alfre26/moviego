@@ -10,6 +10,7 @@ export const MovieContainer = styled.div`
   }
   .movies {
     margin: auto;
+    width: 100%;
     max-width: 375px;
     display: flex;
     flex-direction: column;

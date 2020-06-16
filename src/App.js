@@ -8,6 +8,7 @@ import MovieSection from "./components/MovieSection";
 import SeriesSection from "./components/SeriesSection";
 import MovieList from "./components/MovieList";
 import SerieList from "./components/SerieList";
+import Pagination from "./components/Pagination";
 import NotFound from "./components/NotFound";
 
 class App extends Component {
@@ -16,7 +17,8 @@ class App extends Component {
     this.state = {
       movies: [],
       series: [],
-      pages: 1,
+      currentPage: 1,
+      totalpages: 0,
     };
     this.apiKey = process.env.REACT_APP_API;
   }
@@ -27,32 +29,40 @@ class App extends Component {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        this.setState({ movies: [...data.results], pages: data.total_pages });
+        this.setState({
+          movies: [...data.results],
+          totalpages: data.total_pages,
+        });
       })
       .catch((error) => console.error(error));
-  }
-  componentWillMount() {
+
     fetch(
       `https://api.themoviedb.org/3/tv/popular?api_key=${this.apiKey}&language=en-US&pages=1`
     )
       .then((res) => res.json())
       .then((data) =>
-        this.setState({ series: [...data.results], pages: data.total_pages })
+        this.setState({
+          series: [...data.results],
+          totalpages: data.total_pages,
+        })
       )
       .catch((error) => console.error(error));
   }
-  getImages(urlImage) {
-    const card = {
-      cursor: "pointer",
-      backgroundImage: `url("https://image.tmdb.org/t/p/w200/${urlImage}")`,
-      backgroundPosition: "center",
-      backgroundSize: "cover",
-    };
-    return card;
-  }
+
+  nextPages = (numberPage) => {
+    fetch(
+      `https://api.themoviedb.org/3/tv/popular?api_key=${this.apiKey}&language=en-US&pages=${numberPage}`
+    )
+      .then((res) => res.json())
+      .then((data) =>
+        this.setState({
+          series: [...data.results],
+          currentPage: numberPage,
+        })
+      )
+      .catch((error) => console.error(error));
+  };
   render() {
-    console.log(this.state.movies);
     return (
       <Fragment>
         <Router>
@@ -65,14 +75,8 @@ class App extends Component {
                   return (
                     <div>
                       <Hero />
-                      <MovieSection
-                        movies={this.state.movies}
-                        getImages={this.getImages}
-                      />
-                      <SeriesSection
-                        series={this.state.series}
-                        getImages={this.getImages}
-                      />
+                      <MovieSection movies={this.state.movies} />
+                      <SeriesSection series={this.state.series} />
                     </div>
                   );
                 }}
@@ -82,22 +86,41 @@ class App extends Component {
                 path="/movies"
                 render={() => {
                   return (
-                    <MovieList
-                      movies={this.state.movies}
-                      getImages={this.getImages}
-                    />
+                    <div>
+                      <MovieList movies={this.state.movies} />
+                      {this.state.totalpages > 1 ? (
+                        <Pagination
+                          pagesNumber={this.state.totalpages}
+                          currentPages={this.state.currentPages}
+                          nextPage={this.nextPages}
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   );
                 }}
               />
               <Route
                 exact
                 path="/series"
-                render={() => (
-                  <SerieList
-                    series={this.state.series}
-                    getImages={this.getImages}
-                  />
-                )}
+                render={() => {
+                  return (
+                    <div>
+                      <SerieList series={this.state.series} />
+
+                      {this.state.totalpages > 1 ? (
+                        <Pagination
+                          pagesNumber={this.state.totalpages}
+                          currentPages={this.state.currentPages}
+                          nextPage={this.nextPages}
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  );
+                }}
               />
               <Route component={NotFound} />
             </Switch>
